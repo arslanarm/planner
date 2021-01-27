@@ -1,26 +1,28 @@
 package me.plony.planner.activators
 
-import com.soywiz.klock.Date
 import com.soywiz.klock.DateTime
 
 public class ScheduleList(
-    children: List<Schedule>
+    children: List<DateTimeSchedule<Int>>
 ) : Schedule {
-    public val groupedChildren: Collection<List<Schedule>> = children
+    private val groupedChildren: Collection<DateTimeSchedule<*>> = children
         .groupBy { it::class }
         .values
+        .map { it.drop(1).fold(it.first()) { acc, i -> acc + i } }
     private var lastTime: DateTime? = null
 
-    private fun anyActive(time: DateTime) = groupedChildren.all { it.any { it.active(time) } }
+    private fun anyActive(time: DateTime) = groupedChildren.all { it.active(time) }
     private fun activeSchedules(time: DateTime) = groupedChildren
-        .map { it.filter { it.active(time) } }
-        .filter { it.isNotEmpty() }
+        .map { it.activeComparing(time) }
+        .filter { (active, _) -> active }
+        .map { (_, comparing) -> comparing }
+
     override fun active(time: DateTime): Boolean {
-            if (anyActive(time).not()) return false
-            val activatedSchedules = activeSchedules(time)
-            val activatedLastTime = lastTime?.let { lastTime -> activeSchedules(lastTime) }
-            if (activatedSchedules == activatedLastTime) return false
-            lastTime = time
-            return true
-        }
+        if (anyActive(time).not()) return false
+        val activatedSchedules = activeSchedules(time)
+        val activatedLastTime = lastTime?.let { lastTime -> activeSchedules(lastTime) }
+        if (activatedSchedules == activatedLastTime) return false
+        lastTime = time
+        return true
+    }
 }
