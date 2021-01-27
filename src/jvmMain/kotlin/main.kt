@@ -16,8 +16,11 @@ public fun main() {
     planner {
         scheduledTask {
             schedule {
-                second(1..60)
+                second(1..20)
                 dayOfWeek(DayOfWeek.Monday..DayOfWeek.Friday)
+            }
+            schedule {
+                second(59)
             }
             action {
                 println("Hello ${LocalDateTime.now()}")

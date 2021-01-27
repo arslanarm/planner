@@ -12,4 +12,4 @@ public inline fun ScheduledTaskBuilder.schedule(block: ScheduleBuilder.() -> Uni
     ScheduleBuilder()
         .apply(block)
         .build()
-        .also { schedule = it }
+        .also { schedules += it }
