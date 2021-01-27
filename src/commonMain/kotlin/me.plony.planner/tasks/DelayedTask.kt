@@ -4,9 +4,7 @@ package me.plony.planner.tasks
 
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.measureTime
 import kotlinx.coroutines.*
-import kotlin.math.roundToInt
 
 public class DelayedTask(
     private val delay: TimeSpan,

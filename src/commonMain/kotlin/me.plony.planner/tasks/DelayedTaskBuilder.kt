@@ -9,6 +9,7 @@ import kotlin.time.Duration
 public class DelayedTaskBuilder {
     public var delay: TimeSpan by Delegates.notNull()
     private var task: suspend () -> Unit = {}
+    @ActionDSL
     public fun action(block: suspend () -> Unit) {
         task = block
     }

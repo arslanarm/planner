@@ -1,6 +1,7 @@
 package me.plony.planner.activators
 
+import com.soywiz.klock.DateTime
+
 public interface Schedule {
-    public val children: List<Schedule>
-    public fun active(): Boolean
+    public fun active(time: DateTime): Boolean
 }

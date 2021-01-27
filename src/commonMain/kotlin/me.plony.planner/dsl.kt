@@ -34,10 +34,3 @@ public fun PlannerBuilder.scheduledTask(block: ScheduledTaskBuilder.() -> Unit):
         .apply(block)
         .build()
         .also { tasks.add(it) }
-
-@PlannerDSL
-public inline fun ScheduledTaskBuilder.schedule(block: ScheduleBuilder.() -> Unit): Schedule =
-    ScheduleBuilder()
-        .apply(block)
-        .build()
-        .also { schedule = it }

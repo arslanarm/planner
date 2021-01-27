@@ -1,5 +1,6 @@
 package me.plony.planner.tasks
 
+import com.soywiz.klock.DateTime
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -10,7 +11,7 @@ public class ScheduledTask(
     task: suspend () -> Unit
 ) : Task(task) {
     override suspend fun loop(): Unit = coroutineScope {
-        if (schedule.active().not()) return@coroutineScope
+        if (schedule.active(DateTime.now()).not()) return@coroutineScope
         launch { task() }
     }
 }

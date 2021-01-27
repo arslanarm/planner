@@ -1,18 +1,40 @@
 package me.plony.planner.utils
 
 import com.soywiz.klock.DayOfWeek
+import com.soywiz.klock.Month
 
-
-public operator fun ClosedRange<DayOfWeek>.iterator(): Iterator<DayOfWeek> = object : Iterator<DayOfWeek> {
-    private var current = start
-    override fun hasNext(): Boolean = current.next != endInclusive.next
-    override fun next(): DayOfWeek = current.next
+public class DayOfWeekRange(
+    override val start: DayOfWeek,
+    override val endInclusive: DayOfWeek
+) : ClosedRange<DayOfWeek>, Iterable<DayOfWeek> {
+    public fun toList(): List<DayOfWeek> =
+        mutableListOf<DayOfWeek>().apply {
+            var current = start
+            while (current != endInclusive.next) {
+                add(current)
+                current = current.next
+            }
+        }
+    public override operator fun iterator(): Iterator<DayOfWeek> = toList().iterator()
 }
 
-public inline fun <reified R> ClosedRange<DayOfWeek>.map(block: (DayOfWeek) -> R): MutableList<R> {
-    val result = mutableListOf<R>()
-    for (i in this) {
-        result.add(block(i))
-    }
-    return result
+public class MonthRange(
+    override val start: Month,
+    override val endInclusive: Month
+) : ClosedRange<Month>, Iterable<Month> {
+    public fun toList(): List<Month> =
+        mutableListOf<Month>().apply {
+            var current = start
+            while (current != endInclusive.next) {
+                add(current)
+                current = current.next
+            }
+        }
+    public override operator fun iterator(): Iterator<Month> = toList().iterator()
 }
+
+public operator fun DayOfWeek.rangeTo(other: DayOfWeek): DayOfWeekRange =
+    DayOfWeekRange(this, other)
+
+public operator fun Month.rangeTo(other: Month): MonthRange =
+    MonthRange(this, other)
