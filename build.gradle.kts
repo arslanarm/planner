@@ -23,6 +23,7 @@ kotlin {
         }
     }
     js(BOTH) {
+        nodejs {}
         browser {
             testTask {
                 useKarma {
@@ -38,8 +39,10 @@ kotlin {
         hostOs == "Linux" -> linuxX64("native")
         isMingwX64 -> mingwX64("native")
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
+    }.apply {
+        binaries.executable()
     }
-    this.explicitApi = org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode.Strict
+    explicitApi = org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode.Strict
     sourceSets {
         all {
             languageSettings.useExperimentalAnnotation("kotlin.time.ExperimentalTime")
@@ -66,12 +69,5 @@ kotlin {
         }
         val nativeMain by getting
         val nativeTest by getting
-    }
-}
-
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().all {
-    kotlinOptions {
-        jvmTarget = "1.6"
-        freeCompilerArgs = compilerArgs
     }
 }

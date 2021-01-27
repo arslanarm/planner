@@ -3,8 +3,6 @@
 package me.plony.planner
 
 import com.soywiz.klock.TimeSpan
-import me.plony.planner.activators.Schedule
-import me.plony.planner.activators.ScheduleBuilder
 import me.plony.planner.tasks.DelayedTask
 import me.plony.planner.tasks.DelayedTaskBuilder
 import me.plony.planner.tasks.ScheduledTask
