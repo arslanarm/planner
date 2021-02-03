@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 public abstract class Task(
     protected val task: suspend () -> Unit
 ) {
-    public lateinit var job: Job
+    public var job: Job? = null
     public var isActive: Boolean = false
     public fun CoroutineScope.startTask() : Job {
         require(isActive.not())
@@ -26,11 +26,12 @@ public abstract class Task(
             }
         }
         isActive = true
-        return job
+        return job!!
     }
     public fun stop() {
         require(isActive)
-        job.cancel()
+        job?.cancel()
+        job = null
         isActive = false
     }
     protected abstract suspend fun loop()

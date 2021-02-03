@@ -1,5 +1,7 @@
+import java.net.URI
 plugins {
     kotlin("multiplatform") version "1.4.21"
+    publishing
 }
 
 group = "me.arslan"
@@ -69,5 +71,22 @@ kotlin {
         }
         val nativeMain by getting
         val nativeTest by getting
+    }
+}
+
+subprojects {
+    apply(plugin = "kotlin")
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI("https://maven.pkg.github.com/octocat/hello-world")
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
+        }
     }
 }
