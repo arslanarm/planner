@@ -10,7 +10,7 @@ import me.plony.planner.tasks.schedule
 import java.time.LocalDateTime
 import java.util.concurrent.Executors
 
-suspend fun main1() {
+suspend fun main() {
     planner {
         scheduledTask {
             schedule {
