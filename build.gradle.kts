@@ -24,9 +24,11 @@ kotlin {
             kotlinOptions.jvmTarget = "1.8"
         }
     }
-    js(BOTH) {
+    js(IR) {
+        binaries.library()
         nodejs {}
         browser {
+            binaries.library()
             testTask {
                 useKarma {
                     useChromeHeadless()
@@ -42,7 +44,7 @@ kotlin {
         isMingwX64 -> mingwX64("native")
         else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
     }.apply {
-        binaries.executable()
+        binaries.sharedLib()
     }
     explicitApi = org.jetbrains.kotlin.gradle.dsl.ExplicitApiMode.Strict
     sourceSets {
